@@ -1,12 +1,13 @@
 import {createRouter, createWebHistory} from "vue-router";
 import Index from "@/views";
-import Login from "@/views/Login";
+import Login from "@/views/login";
 import {store} from '@/store'
 import PageNotFound from "@/components/PageNotFound";
 import CookiesUtil from "@/util/Cookie";
 import Home from "@/views/home";
 import Profile from "@/views/profile";
-import Register from "@/views/Register";
+import Register from "@/views/register";
+import Build from "@/views/build";
 
 let routes = [
     {
@@ -18,6 +19,11 @@ let routes = [
                 path: "/",
                 name: "Home",
                 component: Home,
+            },
+            {
+                path: "/build",
+                name: "Build",
+                component: Build,
             },
             {
                 path: "/profile",

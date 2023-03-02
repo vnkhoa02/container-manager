@@ -8,7 +8,6 @@ import 'element-plus/es/components/message/style/css'
 import './index.css'
 import router from './router/router'
 import {store} from '@/store'
-import './registerServiceWorker'
 import mitt from 'mitt';
 
 const emitter = mitt();

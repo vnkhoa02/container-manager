@@ -1,13 +1,11 @@
 import {createStore} from 'vuex'
-import ApiFactory from "@/constant/ApiFactory";
-import {ConstantAPI} from "@/constant/ConstantAPI";
 import CookiesUtil from "@/util/Cookie";
 
 // Create a new store instance.
 export const store = createStore({
     state() {
         return {
-            isLogin: false
+            isLogin: true
         }
     },
     mutations: {
