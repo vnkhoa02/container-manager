@@ -1,0 +1,78 @@
+import {createRouter, createWebHistory} from "vue-router";
+import Index from "@/views";
+import Login from "@/views/Login";
+import {store} from '@/store'
+import PageNotFound from "@/components/PageNotFound";
+import CookiesUtil from "@/util/Cookie";
+import Home from "@/views/home";
+import Profile from "@/views/profile";
+import Register from "@/views/Register";
+
+let routes = [
+    {
+        path: "/",
+        name: "Index",
+        component: Index,
+        children: [
+            {
+                path: "/",
+                name: "Home",
+                component: Home,
+            },
+            {
+                path: "/profile",
+                name: "Profile",
+                component: Profile,
+            }
+        ],
+        beforeEnter: async (to, from, next) => {
+            const isLogin = store.state.isLogin
+            if (isLogin) {
+                next()
+            } else {
+                next({path: "/login"});
+            }
+        },
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+    },
+    {
+        path: "/register",
+        name: "Register",
+        component: Register,
+    },
+    {
+        path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
+        component: PageNotFound
+    }
+];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+    await beforeEach(to, from, next, store)
+})
+
+async function beforeEach(to, from, next, store) {
+    const accessToken = CookiesUtil.getAccessToken()
+    const refreshToken = CookiesUtil.getRefreshToken()
+
+    if (accessToken && refreshToken) {
+        store.dispatch('login')
+        if (to.path === "/login") {
+            next({path: "/"});
+        } else {
+            next();
+        }
+    } else {
+        next()
+    }
+}
+
+export default router;
