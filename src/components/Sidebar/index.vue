@@ -6,23 +6,7 @@
                 minHeight: '100vh'
               }"
   >
-    <el-menu
-        default-active="0"
-    >
-      <RouterLink to="/">
-        <el-menu-item index="0" class="menu_item">
-          <span>Dashboard</span>
-        </el-menu-item>
-      </RouterLink>
-      <RouterLink to="/build">
-        <el-menu-item index="1" class="menu_item">
-          <span>Build</span>
-        </el-menu-item>
-      </RouterLink>
-      <el-menu-item index="2" class="menu_item" @click="onLogout">
-        <span>Logout</span>
-      </el-menu-item>
-    </el-menu>
+    <SidebarMenu/>
   </el-aside>
   <el-header v-else id="header">
     <el-row justify="start">
@@ -44,10 +28,11 @@
 <script>
 import {Menu} from '@element-plus/icons-vue'
 import SidebarMobile from "@/components/SidebarMobile";
+import SidebarMenu from "@/components/Menu";
 
 export default {
   name: "index",
-  components: {SidebarMobile},
+  components: {SidebarMenu, SidebarMobile},
   props: {
     screenWidth: {
       type: Number
@@ -65,11 +50,6 @@ export default {
   methods: {
     onOpenMenu() {
       this.isOpenMenu = true
-    },
-    onLogout() {
-      this.$store.dispatch('logout')
-      this.$message.success('Logout success!')
-      this.$router.push({path: '/login', replace: true})
     }
   }
 }
@@ -78,13 +58,7 @@ export default {
 <style scoped>
 #sidebar {
   border: 1px solid black;
-}
-
-.menu_item {
-  width: 100%;
-  border-bottom: 1px solid gray;
-  text-decoration: none !important;
-  font-size: 16px;
+  border-top: 0;
 }
 
 #header {

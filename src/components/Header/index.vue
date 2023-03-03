@@ -25,7 +25,7 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>Logout</el-dropdown-item>
+                <el-dropdown-item @click="onLogout">Logout</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -50,6 +50,11 @@ export default {
   methods: {
     onOpenMenu() {
     },
+    onLogout() {
+      this.$store.dispatch('logout')
+      this.$message.success('Logout success!')
+      this.$router.push({path: '/login', replace: true})
+    }
   }
 }
 </script>
