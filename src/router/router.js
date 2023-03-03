@@ -5,10 +5,11 @@ import {store} from '@/store'
 import PageNotFound from "@/components/PageNotFound";
 import CookiesUtil from "@/util/Cookie";
 import Home from "@/views/home";
-import Profile from "@/views/profile";
+import About from "@/views/about";
 import Register from "@/views/register";
 import NewBuild from "@/views/build/new";
 import Template from "@/views/build/template";
+import Manage from "@/views/manage";
 
 let routes = [
     {
@@ -32,9 +33,14 @@ let routes = [
                 component: Template,
             },
             {
-                path: "/profile",
-                name: "Profile",
-                component: Profile,
+                path: "/manage",
+                name: "Manage",
+                component: Manage,
+            },
+            {
+                path: "/about",
+                name: "About",
+                component: About,
             }
         ],
         beforeEnter: async (to, from, next) => {

@@ -1,19 +1,12 @@
 <template>
   <div>
-    New
+    Manage
   </div>
 </template>
 
 <script>
 export default {
-  name: "NewBuild",
-  props: {},
-  data() {
-    return {}
-  },
-  mounted() {
-  },
-  methods: {}
+  name: "Manage"
 }
 </script>
 

@@ -5,30 +5,15 @@
              size="90%"
              @close="onClose"
   >
-    <el-menu
-        default-active="0"
-        @click="onClose"
-    >
-      <RouterLink to="/">
-        <el-menu-item index="0" class="menu_item">
-          <span>Dashboard</span>
-        </el-menu-item>
-      </RouterLink>
-      <RouterLink to="/build">
-        <el-menu-item index="1" class="menu_item">
-          <span>Build</span>
-        </el-menu-item>
-      </RouterLink>
-      <el-menu-item index="2" class="menu_item" @click="onLogout">
-        <span>Logout</span>
-      </el-menu-item>
-    </el-menu>
+    <SidebarMenu/>
   </el-drawer>
 </template>
 
 <script>
+import SidebarMenu from "@/components/Menu";
 export default {
   name: "SidebarMobile",
+  components: {SidebarMenu},
   props: {
     visible: {
       type: Boolean,
