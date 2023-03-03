@@ -7,7 +7,8 @@ import CookiesUtil from "@/util/Cookie";
 import Home from "@/views/home";
 import Profile from "@/views/profile";
 import Register from "@/views/register";
-import Build from "@/views/build";
+import NewBuild from "@/views/build/new";
+import Template from "@/views/build/template";
 
 let routes = [
     {
@@ -21,9 +22,14 @@ let routes = [
                 component: Home,
             },
             {
-                path: "/build",
-                name: "Build",
-                component: Build,
+                path: "/build/new",
+                name: "NewBuild",
+                component: NewBuild,
+            },
+            {
+                path: "/build/template",
+                name: "Template",
+                component: Template,
             },
             {
                 path: "/profile",

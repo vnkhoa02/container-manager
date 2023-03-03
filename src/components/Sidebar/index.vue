@@ -14,11 +14,21 @@
           <span>Dashboard</span>
         </el-menu-item>
       </RouterLink>
-      <RouterLink to="/build">
-        <el-menu-item index="1" class="menu_item">
+      <el-sub-menu index="1" class="menu_item">
+        <template #title>
           <span>Build</span>
-        </el-menu-item>
-      </RouterLink>
+        </template>
+        <RouterLink to="/build/new">
+          <el-menu-item index="1-1">
+            <span>New</span>
+          </el-menu-item>
+        </RouterLink>
+        <RouterLink to="/build/template">
+          <el-menu-item index="1-2">
+            <span>Template</span>
+          </el-menu-item>
+        </RouterLink>
+      </el-sub-menu>
       <el-menu-item index="2" class="menu_item" @click="onLogout">
         <span>Logout</span>
       </el-menu-item>

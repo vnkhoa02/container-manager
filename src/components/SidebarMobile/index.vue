@@ -57,10 +57,6 @@ export default {
 </script>
 
 <style scoped>
-#sidebar {
-  border: 1px solid black;
-  height: 100vh;
-}
 
 .menu_item {
   width: 100%;
