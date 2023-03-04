@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const HOST = 'http://ugoplix.duckdns.org/api/v1/'
+const HOST = 'http://ugoplix.duckdns.org/api/v1'
 // const HOST = "http://localhost:8080";
 const HUB = "/hub";
 const BACKEND_API_URL = HOST + HUB;
