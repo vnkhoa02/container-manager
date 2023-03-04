@@ -6,7 +6,7 @@
             v-model="selectedContainers"
             filterable
             :filter-method="searchContainer"
-            filter-placeholder="Centos 7"
+            filter-placeholder="Centos"
             :data="containers"
             :titles="['Containers', 'Selected']"
         />
@@ -49,11 +49,22 @@ export default {
           this.containers.push(
               {
                 key: container.name,
-                label: container.name,
-                data: container
+                label: container.name
               }
           )
         }
+      } catch (e) {
+        console.error(e)
+      } finally {
+        loading.close()
+      }
+    },
+    async getTags(library) {
+      const loading = this.$loading(BaseLoading)
+      try {
+        const response = await HubService.returnTagsFromLibrary(library)
+        const tags = response.data.tags
+        console.log(tags)
       } catch (e) {
         console.error(e)
       } finally {
