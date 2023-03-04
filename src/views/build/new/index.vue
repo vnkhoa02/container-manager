@@ -1,20 +1,31 @@
 <template>
-  <el-row>
-    <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-      <el-transfer
-          v-model="selectedContainers"
-          filterable
-          :filter-method="searchContainer"
-          filter-placeholder="Centos 7"
-          :data="containers"
-          :titles="['Containers', 'Selected']"
-      />
-    </el-col>
-  </el-row>
+  <el-space direction="vertical" alignment="normal">
+    <el-row>
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+        <el-transfer
+            v-model="selectedContainers"
+            filterable
+            :filter-method="searchContainer"
+            filter-placeholder="Centos 7"
+            :data="containers"
+            :titles="['Containers', 'Selected']"
+        />
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+        <el-row>
+          <el-button>View Compose Sample Preview</el-button>
+          <el-button>Create</el-button>
+        </el-row>
+      </el-col>
+    </el-row>
+  </el-space>
 </template>
 
 <script>
 import HubService from "@/constant/HubService";
+import {BaseLoading} from "@/constant/Constant";
 
 export default {
   name: "NewBuild",
@@ -25,18 +36,32 @@ export default {
       selectedContainers: []
     }
   },
-  mounted() {
+  created() {
     this.getContainers()
   },
   methods: {
     async getContainers() {
-      const data = await HubService.getFullList()
-      console.log(data)
+      const loading = this.$loading(BaseLoading)
+      try {
+        const response = await HubService.getFullList()
+        const containers = response.data.results
+        for (const container of containers) {
+          this.containers.push(
+              {
+                key: container.name,
+                label: container.name,
+                data: container
+              }
+          )
+        }
+      } catch (e) {
+        console.error(e)
+      } finally {
+        loading.close()
+      }
     },
     searchContainer(query, item) {
-      console.log(query)
-      console.log(item)
-      // return item.initial.toLowerCase().includes(query.toLowerCase())
+      return item.label.toLowerCase().includes(query.toLowerCase())
     }
   }
 }
