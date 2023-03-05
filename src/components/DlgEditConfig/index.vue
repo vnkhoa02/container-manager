@@ -79,7 +79,8 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="onImportConfig" type="primary">Import</el-button>
+        <el-button @click="onAutofill" type="success" :loading="isLoadingAutofill">Autofill</el-button>
+        <el-button @click="onImportConfig" type="primary" :loading="isLoadingAutofill">Import</el-button>
         <el-button @click="onClose">Cancel</el-button>
       </span>
     </template>
@@ -113,6 +114,7 @@ export default {
       },
       containerConfig: cloneDeep(DEFAULT_CONFIG),
       isLoadingTags: false,
+      isLoadingAutofill: false,
       tags: []
     }
   },
@@ -161,6 +163,19 @@ export default {
           this.onClose()
         })
       })
+    },
+    async onAutofill() {
+      this.isLoadingAutofill = true
+      try {
+        const response = await HubService.autofillConfig(this.container.key)
+        if (response.data !== {}) {
+          this.containerConfig = Object.assign(this.containerConfig, response.data)
+        }
+      } catch (e) {
+        console.error(e)
+      } finally {
+        this.isLoadingAutofill = false
+      }
     },
     onClose() {
       this.isShow = false

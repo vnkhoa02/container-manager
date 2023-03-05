@@ -93,6 +93,8 @@ import {Tools} from '@element-plus/icons-vue'
 import {mapComputed} from "@/util";
 import DlgEditConfig from "@/components/DlgEditConfig";
 import {ElMessageBox} from "element-plus";
+import {BaseLoading} from "@/constant/Constant";
+import HubService from "@/constant/HubService";
 
 export default {
   name: "DlgNewBuild",
@@ -143,8 +145,20 @@ export default {
             cancelButtonText: 'Cancel',
             type: 'warning',
           }
-      ).then(() => {
-        this.onClose()
+      ).then(async () => {
+        const loading = this.$loading(BaseLoading)
+        try {
+          for (let i = 0; i < this.containers.length; i++) {
+            const payload = this.containers[i].config
+            const response = await HubService.generateComposeFile(payload)
+            console.log(response.data)
+          }
+          this.onClose()
+        } catch (err) {
+          console.error(err)
+        } finally {
+          loading.close()
+        }
       })
     },
     importConfig(config) {
