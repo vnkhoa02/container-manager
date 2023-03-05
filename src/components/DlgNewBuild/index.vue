@@ -20,7 +20,7 @@
                 <el-button :icon="Tools" @click="onEditConfig(container)">Config</el-button>
               </div>
             </template>
-            <div v-if="container.config">
+            <el-scrollbar max-height="300" min-size="200" v-if="container.config">
               <el-descriptions
                   title="Specs"
                   :column="1"
@@ -68,7 +68,7 @@
                   {{ container.config.ports }}
                 </el-descriptions-item>
               </el-descriptions>
-            </div>
+            </el-scrollbar>
           </el-card>
         </div>
       </el-col>
@@ -136,18 +136,15 @@ export default {
     },
     onCreate() {
       const message = 'Create containers?'
-      this.$refs.formConfig.validate((valid) => {
-        if (!valid) return;
-        ElMessageBox.confirm(
-            message,
-            {
-              confirmButtonText: 'Import',
-              cancelButtonText: 'Cancel',
-              type: 'warning',
-            }
-        ).then(() => {
-          this.onClose()
-        })
+      ElMessageBox.confirm(
+          message,
+          {
+            confirmButtonText: 'Import',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+          }
+      ).then(() => {
+        this.onClose()
       })
     },
     importConfig(config) {

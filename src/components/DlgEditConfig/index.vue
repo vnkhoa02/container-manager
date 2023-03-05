@@ -90,6 +90,7 @@
 import {mapComputed} from "@/util";
 import HubService from "@/constant/HubService";
 import {ElMessageBox} from "element-plus";
+import cloneDeep from "clone-deep";
 
 export default {
   name: "DlgEditConfig",
@@ -110,15 +111,7 @@ export default {
         restart: {required: true, message: 'Restart required', trigger: ['blur', 'change']},
         ports: {required: true, message: 'Ports required', trigger: ['blur', 'change']},
       },
-      containerConfig: {
-        key: '',
-        image: '',
-        tag: '',
-        container_name: '',
-        restart: '',
-        network_mode: '',
-        ports: []
-      },
+      containerConfig: cloneDeep(DEFAULT_CONFIG),
       isLoadingTags: false,
       tags: []
     }
@@ -130,6 +123,11 @@ export default {
     isShow(newVal, val) {
       if (newVal) {
         this.getTags(this.container.key)
+      } else {
+        this.containerConfig = cloneDeep(DEFAULT_CONFIG)
+        setTimeout(() => {
+          this.$refs.formConfig.clearValidate()
+        }, 50)
       }
     }
   },
@@ -168,6 +166,16 @@ export default {
       this.isShow = false
     },
   }
+}
+
+const DEFAULT_CONFIG = {
+  key: '',
+  image: '',
+  tag: '',
+  container_name: '',
+  restart: '',
+  network_mode: '',
+  ports: []
 }
 </script>
 
