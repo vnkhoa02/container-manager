@@ -7,37 +7,96 @@
       top="10px"
       title="Create"
   >
-    <el-space direction="vertical" alignment="normal">
-      <el-row>
-        <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-          <el-scrollbar>
-            <el-card v-for="container in formData"
-                     :key="container.key"
-                     shadow="hover"
-                     class="box-card">
-              <template #header>
-                <div class="card-header">
-                  <span>{{ container.label }}</span>
-                  <el-button :icon="Tools">Configure</el-button>
-                </div>
-              </template>
-              <span>{{ container.label }}</span>
-            </el-card>
-          </el-scrollbar>
-        </el-col>
-      </el-row>
-    </el-space>
+    <el-row>
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+        <div style="display: flex; flex-wrap: wrap">
+          <el-card v-for="container in containers"
+                   :key="container.key"
+                   shadow="hover"
+                   class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>{{ container.label }}</span>
+                <el-button :icon="Tools" @click="onEditConfig(container)">Config</el-button>
+              </div>
+            </template>
+            <div v-if="container.config">
+              <el-descriptions
+                  title="Specs"
+                  :column="1"
+                  size="small"
+                  border
+              >
+                <el-descriptions-item>
+                  <template #label>
+                    <div class="cell-item">
+                      Image
+                    </div>
+                  </template>
+                  {{ container.config.image }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template #label>
+                    <div class="cell-item">
+                      Container's name
+                    </div>
+                  </template>
+                  {{ container.config.container_name }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template #label>
+                    <div class="cell-item">
+                      Restart
+                    </div>
+                  </template>
+                  {{ container.config.restart }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template #label>
+                    <div class="cell-item">
+                      Network mode
+                    </div>
+                  </template>
+                  {{ container.config.network_mode }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                  <template #label>
+                    <div class="cell-item">
+                      Ports
+                    </div>
+                  </template>
+                  {{ container.config.ports }}
+                </el-descriptions-item>
+              </el-descriptions>
+            </div>
+          </el-card>
+        </div>
+      </el-col>
+    </el-row>
+    <DlgEditConfig
+        v-model:visible="isShowDlgEditConfig"
+        :container="tempContainer"
+        @importConfig="importConfig"
+    />
+
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="onCreate" type="primary">Create</el-button>
+        <el-button @click="onClose">Cancel</el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 
 <script>
 import {Tools} from '@element-plus/icons-vue'
 import {mapComputed} from "@/util";
-import {BaseLoading} from "@/constant/Constant";
-import HubService from "@/constant/HubService";
+import DlgEditConfig from "@/components/DlgEditConfig";
+import {ElMessageBox} from "element-plus";
 
 export default {
   name: "DlgNewBuild",
+  components: {DlgEditConfig},
   props: {
     visible: {
       type: Boolean,
@@ -49,29 +108,56 @@ export default {
   },
   data() {
     return {
-      Tools
+      Tools,
+      containers: [],
+      tempContainer: null,
+      isShowDlgEditConfig: false
     }
   },
   computed: {
     isShow: mapComputed('visible')
   },
-  watch: {},
+  watch: {
+    isShow(newVal, val) {
+      if (newVal) {
+        this.containers = this.formData
+      } else {
+        this.containers = []
+      }
+    }
+  },
   methods: {
     onClose() {
       this.isShow = false
     },
-    async getTags(library) {
-      const loading = this.$loading(BaseLoading)
-      try {
-        const response = await HubService.returnTagsFromLibrary(library)
-        const tags = response.data.tags
-        console.log(tags)
-      } catch (e) {
-        console.error(e)
-      } finally {
-        loading.close()
-      }
+    onEditConfig(container) {
+      this.tempContainer = container
+      this.isShowDlgEditConfig = true
     },
+    onCreate() {
+      const message = 'Create containers?'
+      this.$refs.formConfig.validate((valid) => {
+        if (!valid) return;
+        ElMessageBox.confirm(
+            message,
+            {
+              confirmButtonText: 'Import',
+              cancelButtonText: 'Cancel',
+              type: 'warning',
+            }
+        ).then(() => {
+          this.onClose()
+        })
+      })
+    },
+    importConfig(config) {
+      for (let i = 0; i < this.containers.length; i++) {
+        if (this.containers[i].key === config.key) {
+          this.containers[i].config = config
+          break
+        }
+      }
+    }
   }
 }
 </script>
