@@ -54,7 +54,7 @@
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Ports" prop="ports">
             <el-input-tag
-                v-model="containerConfig.ports"
+                v-model:value="containerConfig.ports"
                 placeholder="80"
                 size="small"
             />
@@ -81,7 +81,7 @@
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Volumes" prop="volumes">
             <el-input-tag
-                v-model="containerConfig.volumes"
+                v-model:value="containerConfig.volumes"
                 size="small"
             />
           </el-form-item>
@@ -89,7 +89,7 @@
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Environment" prop="environment">
             <el-input-tag
-                v-model="containerConfig.environment"
+                v-model:value="containerConfig.environment"
                 size="small"
             />
           </el-form-item>
@@ -97,7 +97,7 @@
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="DNS" prop="dns">
             <el-input-tag
-                v-model="containerConfig.dns"
+                v-model:value="containerConfig.dns"
                 size="small"
             />
           </el-form-item>
@@ -107,7 +107,7 @@
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Health Check" prop="healthcheck">
             <el-input-tag
-                v-model="containerConfig.healthcheck"
+                v-model:value="containerConfig.healthcheck"
                 size="small"
             />
           </el-form-item>

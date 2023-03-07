@@ -111,7 +111,7 @@ export default {
       this.tagChange()
     },
     tagChange () {
-      this.$emit('input', this.innerTags)
+      this.$emit('update:value', this.innerTags)
     }
   }
 }
