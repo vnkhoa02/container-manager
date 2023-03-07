@@ -14,6 +14,7 @@
         label-width="135px"
         label-position="left"
     >
+      {{ containerConfig }}
       <el-row :gutter="10">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Tag" prop="tag">
@@ -52,9 +53,10 @@
       <el-row :gutter="10">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Ports" prop="ports">
-            <el-input v-model="containerConfig.ports"
-                      placeholder="80"
-                      clearable
+            <el-input-tag
+                v-model="containerConfig.ports"
+                placeholder="80"
+                size="small"
             />
           </el-form-item>
         </el-col>
@@ -78,25 +80,25 @@
       <el-row :gutter="10">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Volumes" prop="volumes">
-            <el-input v-model="containerConfig.volumes"
-                      placeholder=""
-                      clearable
+            <el-input-tag
+                v-model="containerConfig.volumes"
+                size="small"
             />
           </el-form-item>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Environment" prop="environment">
-            <el-input v-model="containerConfig.environment"
-                      placeholder=""
-                      clearable
+            <el-input-tag
+                v-model="containerConfig.environment"
+                size="small"
             />
           </el-form-item>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="DNS" prop="dns">
-            <el-input v-model="containerConfig.dns"
-                      placeholder=""
-                      clearable
+            <el-input-tag
+                v-model="containerConfig.dns"
+                size="small"
             />
           </el-form-item>
         </el-col>
@@ -104,9 +106,9 @@
       <el-row>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Health Check" prop="healthcheck">
-            <el-input v-model="containerConfig.healthcheck"
-                      placeholder=""
-                      clearable
+            <el-input-tag
+                v-model="containerConfig.healthcheck"
+                size="small"
             />
           </el-form-item>
         </el-col>
@@ -138,9 +140,11 @@ import {mapComputed} from "@/util";
 import HubService from "@/constant/HubService";
 import {ElMessageBox} from "element-plus";
 import cloneDeep from "clone-deep";
+import ElInputTag from "@/components/ElInputTag";
 
 export default {
   name: "DlgEditConfig",
+  components: {ElInputTag},
   props: {
     visible: {
       type: Boolean,
@@ -204,7 +208,7 @@ export default {
             }
         ).then(() => {
           this.containerConfig.key = this.container.key
-          this.containerConfig.image = `${this.container.key}:${this.containerConfig.tag}`
+          this.containerConfig.image = this.container.key
           this.$emit('importConfig', this.containerConfig)
           this.onClose()
         })
