@@ -14,6 +14,7 @@
         label-width="135px"
         label-position="left"
     >
+      {{ containerConfig }}
       <el-row :gutter="10">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Tag" prop="tag">
@@ -48,16 +49,17 @@
             />
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="10">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Ports" prop="ports">
-            <el-input v-model="containerConfig.ports"
-                      placeholder="80"
-                      clearable
+            <el-input-tag
+                v-model:value="containerConfig.ports"
+                placeholder="80"
+                size="small"
             />
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="10">
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
           <el-form-item label="Network mode" prop="network_mode">
             <el-input v-model="containerConfig.network_mode"
@@ -67,13 +69,59 @@
           </el-form-item>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-
+          <el-form-item label="Depends on" prop="depends_on">
+            <el-input v-model="containerConfig.depends_on"
+                      placeholder=""
+                      clearable
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="10">
+        <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+          <el-form-item label="Volumes" prop="volumes">
+            <el-input-tag
+                v-model:value="containerConfig.volumes"
+                size="small"
+            />
+          </el-form-item>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-
+          <el-form-item label="Environment" prop="environment">
+            <el-input-tag
+                v-model:value="containerConfig.environment"
+                size="small"
+            />
+          </el-form-item>
         </el-col>
         <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
-
+          <el-form-item label="DNS" prop="dns">
+            <el-input-tag
+                v-model:value="containerConfig.dns"
+                size="small"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+          <el-form-item label="Health Check" prop="healthcheck">
+            <el-input-tag
+                v-model:value="containerConfig.healthcheck"
+                size="small"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+          <el-form-item label="Command" prop="command">
+            <el-input v-model="containerConfig.command"
+                      placeholder=""
+                      type="textarea"
+                      rows="4"
+                      resize="none"
+                      clearable
+            />
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -92,9 +140,11 @@ import {mapComputed} from "@/util";
 import HubService from "@/constant/HubService";
 import {ElMessageBox} from "element-plus";
 import cloneDeep from "clone-deep";
+import ElInputTag from "@/components/ElInputTag";
 
 export default {
   name: "DlgEditConfig",
+  components: {ElInputTag},
   props: {
     visible: {
       type: Boolean,
@@ -158,7 +208,7 @@ export default {
             }
         ).then(() => {
           this.containerConfig.key = this.container.key
-          this.containerConfig.image = `${this.container.key}:${this.containerConfig.tag}`
+          this.containerConfig.image = this.container.key
           this.$emit('importConfig', this.containerConfig)
           this.onClose()
         })
@@ -190,7 +240,13 @@ const DEFAULT_CONFIG = {
   container_name: '',
   restart: '',
   network_mode: '',
-  ports: []
+  ports: [],
+  volumes: [],
+  environment: [],
+  dns: [],
+  healthcheck: [],
+  command: '',
+  depends_on: ''
 }
 </script>
 
