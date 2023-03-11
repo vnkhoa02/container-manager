@@ -49,6 +49,7 @@ export default {
   },
   methods: {
     onOpenMenu() {
+      this.emitter.emit("collapseScreen");
     },
     onLogout() {
       this.$store.dispatch('logout')

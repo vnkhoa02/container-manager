@@ -43,10 +43,4 @@ export default {
 
 <style scoped>
 
-.menu_item {
-  width: 100%;
-  border-bottom: 1px solid gray;
-  text-decoration: none !important;
-  font-size: 16px;
-}
 </style>
