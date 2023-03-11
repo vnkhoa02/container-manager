@@ -2,15 +2,15 @@
   <el-menu default-active="0"
            :collapse="isCollapse"
            :style="{
-             width: !isCollapse ? '300px': 'fit-content'
+             width: !isCollapse ? '300px': 'min-content'
            }"
   >
     <RouterLink to="/">
       <el-menu-item index="0" class="menu_item">
+        <el-icon>
+          <Menu/>
+        </el-icon>
         <template #title>
-          <el-icon>
-            <Menu/>
-          </el-icon>
           <span>Dashboard</span>
         </template>
       </el-menu-item>
@@ -24,20 +24,20 @@
       </template>
       <RouterLink to="/build/new">
         <el-menu-item index="1-1">
+          <el-icon>
+            <Plus/>
+          </el-icon>
           <template #title>
-            <el-icon>
-              <Plus/>
-            </el-icon>
             <span>New</span>
           </template>
         </el-menu-item>
       </RouterLink>
       <RouterLink to="/build/template">
         <el-menu-item index="1-2">
+          <el-icon>
+            <Notebook/>
+          </el-icon>
           <template #title>
-            <el-icon>
-              <Notebook/>
-            </el-icon>
             <span>Template</span>
           </template>
         </el-menu-item>
@@ -45,20 +45,20 @@
     </el-sub-menu>
     <RouterLink to="/manage">
       <el-menu-item index="2" class="menu_item">
+        <el-icon>
+          <Setting/>
+        </el-icon>
         <template #title>
-          <el-icon>
-            <Setting/>
-          </el-icon>
           <span>Manage</span>
         </template>
       </el-menu-item>
     </RouterLink>
     <RouterLink to="/about">
       <el-menu-item index="3" class="menu_item">
+        <el-icon>
+          <QuestionFilled/>
+        </el-icon>
         <template #title>
-          <el-icon>
-            <QuestionFilled/>
-          </el-icon>
           <span>About</span>
         </template>
       </el-menu-item>
