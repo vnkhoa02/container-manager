@@ -1,9 +1,11 @@
 <template>
   <el-aside v-if="screenWidth > 820"
-            id="sidebar"
+            style="width: fit-content;"
             :style="{
                 height: screenHeight,
-                minHeight: '100vh'
+                minHeight: '100vh',
+                border: `1px solid black`,
+                borderTop: 0
               }"
   >
     <SidebarMenu/>
@@ -56,10 +58,6 @@ export default {
 </script>
 
 <style scoped>
-#sidebar {
-  border: 1px solid black;
-  border-top: 0;
-}
 
 #header {
   margin: 0;
