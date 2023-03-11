@@ -90,7 +90,7 @@
 
 <script>
 import {Tools} from '@element-plus/icons-vue'
-import {mapComputed} from "@/util";
+import {cleanEmpty, mapComputed} from "@/util";
 import DlgEditConfig from "@/components/DlgEditConfig";
 import {ElMessageBox} from "element-plus";
 import {BaseLoading} from "@/constant/Constant";
@@ -148,11 +148,13 @@ export default {
       ).then(async () => {
         const loading = this.$loading(BaseLoading)
         try {
+          const payload = []
           for (let i = 0; i < this.containers.length; i++) {
-            const payload = this.containers[i].config
-            const response = await HubService.generateComposeFile(payload)
-            console.log(response.data)
+            const newPayload = cleanEmpty(this.containers[i].config)
+            payload.push(newPayload)
           }
+          const response = await HubService.generateComposeFile(payload)
+          console.log(response.data)
           this.onClose()
         } catch (err) {
           console.error(err)
